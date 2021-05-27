@@ -1,2 +1,7 @@
+#VS and VS Code user settings folders.
+.vs
+.vscode
+
+#Project folders to exclude.
 [Bb]in
 [Oo]bj

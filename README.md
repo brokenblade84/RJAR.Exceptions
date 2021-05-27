@@ -36,6 +36,12 @@ This component will provide 3 different types of exceptions to handle errors in 
 
 Functional exceptions are used to thrown business validation errors. This exceptions will return the real exception message configured in the response.
 
+To throw a functional exception just throw the exception directly in your code after your validations. No try/catch block is required.
+
+``` csharp
+   throw new FunctionalException("<Add your custom message here>");
+```
+
 e.g.
 
 ``` json

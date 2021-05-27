@@ -4,10 +4,12 @@ using Newtonsoft.Json;
 using RJAR.Exceptions.Constants;
 using RJAR.Exceptions.Interfaces;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace RJAR.Exceptions.Middlewares
 {
+    [ExcludeFromCodeCoverage]
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;

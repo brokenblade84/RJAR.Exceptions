@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RJAR.Exceptions.Constants
 {
+    [ExcludeFromCodeCoverage]
     public static class ExceptionConstants
     {
         public static String CONTENT_TYPE = "application/json";

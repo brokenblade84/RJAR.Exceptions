@@ -3,10 +3,12 @@ using RJAR.Exceptions.Interfaces;
 using RJAR.Exceptions.ResponseMessages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace RJAR.Exceptions.Helpers
 {
+    [ExcludeFromCodeCoverage]
     public static class ExceptionMessageHelper
     {
         public static IBaseExceptionResponseMessage GetBaseExceptionMessage() =>

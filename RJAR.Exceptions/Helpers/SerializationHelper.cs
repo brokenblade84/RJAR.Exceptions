@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RJAR.Exceptions.Helpers
 {
+    [ExcludeFromCodeCoverage]
     public static class SerializationHelper
     {
-        private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             DefaultValueHandling = DefaultValueHandling.Include,

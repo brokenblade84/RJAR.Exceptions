@@ -2,41 +2,35 @@
 using RJAR.Exceptions.Enumerators;
 using RJAR.Exceptions.Interfaces;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
 namespace RJAR.Exceptions.Base
 {
     [Serializable]
+    [ExcludeFromCodeCoverage]
     public abstract class BaseException : Exception, IBaseException
     {
         private readonly ExceptionType _exceptionType;
         protected ILogger<BaseException> _logger;
         
         protected BaseException(ExceptionType exceptionType = ExceptionType.Unhandled) 
-            : base()
-        {
+            : base() =>
             _exceptionType = exceptionType;
-        }
 
         protected BaseException(string message, ExceptionType exceptionType = ExceptionType.Unhandled) 
-            : base(message)
-        {
+            : base(message) => 
             _exceptionType = exceptionType;
-        }
 
         protected BaseException(string message, Exception innerException, ExceptionType exceptionType = ExceptionType.Unhandled) 
-            : base(message, innerException)
-        {
+            : base(message, innerException) =>
             _exceptionType = exceptionType;
-        }
 
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         protected BaseException(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
-        {
+            : base(info, context) =>
             _exceptionType = (ExceptionType)info.GetValue("_exceptionType", typeof(ExceptionType));
-        }
 
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -48,7 +42,8 @@ namespace RJAR.Exceptions.Base
             base.GetObjectData(info, context);
         }
 
-        public ExceptionType GetExceptionType() => _exceptionType;
+        public ExceptionType GetExceptionType() => 
+            _exceptionType;
 
         public virtual void LogError()
         {

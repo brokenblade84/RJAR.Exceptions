@@ -2,7 +2,7 @@
 
 Component to centralize error handling in net core web api applications. This component provides a middleware to configure the global exception handling in your application with the required configuration to be able to log the exceptions thrown.
 
-The component defines the custom exceptions needed to cover all posibles outcomes when handling errors in the application. You won't need to define a try/catch block anymore in your app. (Unless a third party component or specific functionality require it).
+The component defines the custom exceptions needed to cover all possible outcomes when handling errors in the application. You won't need to define a try/catch block anymore in your app. (Unless a third party component or specific functionality requires it).
 
 ## Setting up the middleware in the application
 
@@ -34,7 +34,7 @@ This component will provide 3 different types of exceptions to handle errors in 
 
 ### Functional Exception
 
-Functional exceptions are used to thrown business validation errors. This exceptions will return the real exception message configured in the response.
+Functional exceptions are used to throw business validation errors. This exceptions will return the real exception message configured in the response.
 
 To throw a functional exception just throw the exception directly in your code after your validations. No try/catch block is required.
 
@@ -63,7 +63,7 @@ This exception needs to be thrown manually by the user.
 
 ### Technical Exceptions
 
-Technical exceptions will be raise automatically if for example the application thrown an ArgumentNullException or a NullReferenceException, but this type of exception can be thrown manually by the user too. For example, if you need to validate a DbContext or a third party library that requires a try/catch block you can use this exception as following:
+Technical exceptions will be raised automatically if for example the application has thrown an ArgumentNullException or a NullReferenceException, but this type of exception can be thrown manually by the user too. For example, if you need to validate a DbContext or a third party library that requires a try/catch block you can use this exception as following:
 
 ``` csharp
 
@@ -80,7 +80,7 @@ catch (Exception tex)
 }
 ```
 
-The response generate for this exception will have the same format as the functional exception, but the message returned as result will be generic. If you want to know the real message of the exception you would need to find it in your application logging,
+The response generated for this exception will have the same format as the functional exception, but the message returned as a result will be generic. If you want to know the real message of the exception you would need to find it in your application logging,
 
 e.g.
 
@@ -93,8 +93,8 @@ e.g.
 
 ### Unhandled Exceptions
 
-Unhandled exceptions englobe all the exceptions that the application can thrown and that are not expected.  
-This exception cannot be thrown manually by the user, it will be generate automatically by the middleware and the response will be exactly the same as the technical exceptions. You will need to check your application logging to found the real cause of the exception.
+Unhandled exceptions englobe all the exceptions that the application can throw and that are not expected.  
+This exception cannot be thrown manually by the user, it will be generated automatically by the middleware and the response will be exactly the same as the technical exceptions. You will need to check your application logging to find the real cause of the exception.
 
 e.g.
 

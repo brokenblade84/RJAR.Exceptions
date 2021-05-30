@@ -7,6 +7,9 @@ namespace RJAR.Exceptions.Helpers
     [ExcludeFromCodeCoverage]
     public static class SerializationHelper
     {
+        /// <summary>
+        /// Default settings for serialization.
+        /// </summary>
         private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
@@ -15,6 +18,10 @@ namespace RJAR.Exceptions.Helpers
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
+        /// <summary>
+        /// Extension to return the serialization configuration.
+        /// </summary>
+        /// <returns>JsonSerializerSettings</returns>
         public static JsonSerializerSettings GetSerializationSettings() =>
             _jsonSerializerSettings;
     }

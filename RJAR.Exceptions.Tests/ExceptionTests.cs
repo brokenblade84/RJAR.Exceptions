@@ -167,7 +167,7 @@ namespace RJAR.Exceptions.Tests
             {
                 Assert.IsInstanceOf<TechnicalException>(technicalException);
                 Assert.AreEqual(MessageHelper.TECHNICAL_EXCEPTION_MESSAGE, technicalException.Message);
-                Assert.IsInstanceOf<IBaseExceptionResponseMessage>(messageResponse);
+                Assert.IsInstanceOf<IBaseExceptionMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.InternalServerError);
                 Assert.AreEqual(MessageHelper.EXCEPTION_DEFAULT_MESSAGE, messageResponse.ErrorMessage);
             });
@@ -185,7 +185,7 @@ namespace RJAR.Exceptions.Tests
             {
                 Assert.IsInstanceOf<TechnicalException>(technicalException);
                 Assert.AreEqual(MessageHelper.TECHNICAL_EXCEPTION_MESSAGE, technicalException.Message);
-                Assert.IsInstanceOf<IBaseExceptionResponseMessage>(messageResponse);
+                Assert.IsInstanceOf<IBaseExceptionMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.InternalServerError);
                 Assert.AreEqual(MessageHelper.EXCEPTION_DEFAULT_MESSAGE, messageResponse.ErrorMessage);
                 Assert.DoesNotThrow(technicalException.LogError);
@@ -202,7 +202,7 @@ namespace RJAR.Exceptions.Tests
             {
                 Assert.IsInstanceOf<FunctionalException>(functionalException);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, functionalException.Message);
-                Assert.IsInstanceOf<IFunctionalExceptionResponseMessage>(messageResponse);
+                Assert.IsInstanceOf<IFunctionalExceptionMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.BadRequest);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, messageResponse.ErrorMessage);
             });
@@ -220,7 +220,7 @@ namespace RJAR.Exceptions.Tests
             {
                 Assert.IsInstanceOf<FunctionalException>(functionalException);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, functionalException.Message);
-                Assert.IsInstanceOf<IFunctionalExceptionResponseMessage>(messageResponse);
+                Assert.IsInstanceOf<IFunctionalExceptionMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.BadRequest);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, messageResponse.ErrorMessage); 
                 Assert.DoesNotThrow(functionalException.LogError);

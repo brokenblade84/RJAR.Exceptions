@@ -1,6 +1,6 @@
 ﻿using RJAR.Exceptions.Constants;
 using RJAR.Exceptions.Interfaces;
-using RJAR.Exceptions.ResponseMessages;
+using RJAR.Exceptions.Messages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -11,14 +11,22 @@ namespace RJAR.Exceptions.Helpers
     [ExcludeFromCodeCoverage]
     public static class ExceptionMessageHelper
     {
-        public static IBaseExceptionResponseMessage GetBaseExceptionMessage() =>
-            new BaseExceptionResponseMessage
+        public static IBaseExceptionMessage GetBaseExceptionMessage() =>
+            new BaseExceptionMessage
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError,
                 ErrorMessage = ExceptionConstants.EXCEPTION_DEFAULT_MESSAGE
             };
-        public static IFunctionalExceptionResponseMessage GetFunctionalExceptionMessage(String message, IDictionary<String, String> validationFieldMessages) =>
-            new FunctionalExceptionResponseMessage
+
+        internal static IBaseExceptionMessage GetMiddlewareExceptionMessage() =>
+            new BaseExceptionMessage
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                ErrorMessage = ExceptionConstants.MIDDLEWARE_EXECUTION_EXCEPTION
+            };
+
+        internal static IFunctionalExceptionMessage GetFunctionalExceptionMessage(String message, IDictionary<String, String> validationFieldMessages) =>
+            new FunctionalExceptionMessage
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
                 ErrorMessage = message,

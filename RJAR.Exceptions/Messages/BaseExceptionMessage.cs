@@ -2,11 +2,11 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RJAR.Exceptions.ResponseMessages
+namespace RJAR.Exceptions.Messages
 {
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class BaseExceptionResponseMessage : IBaseExceptionResponseMessage
+    public class BaseExceptionMessage : IBaseExceptionMessage
     {
         public Int32 StatusCode { get; set; }
         public String ErrorMessage { get; set; }

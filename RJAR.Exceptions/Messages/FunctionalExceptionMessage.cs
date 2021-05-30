@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RJAR.Exceptions.ResponseMessages
+namespace RJAR.Exceptions.Messages
 {
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class FunctionalExceptionResponseMessage : BaseExceptionResponseMessage, IFunctionalExceptionResponseMessage
+    public class FunctionalExceptionMessage : BaseExceptionMessage, IFunctionalExceptionMessage
     {
         public IDictionary<String, String> ValidationFieldMessages { get; set; }
     }

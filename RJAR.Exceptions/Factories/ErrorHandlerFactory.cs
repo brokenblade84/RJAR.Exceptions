@@ -3,7 +3,6 @@ using RJAR.Exceptions.Base;
 using RJAR.Exceptions.Helpers;
 using RJAR.Exceptions.Interfaces;
 using System;
-using System.Data.SqlClient;
 using System.IO;
 
 namespace RJAR.Exceptions.Factories
@@ -14,14 +13,17 @@ namespace RJAR.Exceptions.Factories
     public class ErrorHandlerFactory : IErrorHandlerFactory
     {
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<BaseException> _logger;
 
-        public ErrorHandlerFactory(ILoggerFactory loggerFactory) =>
+        public ErrorHandlerFactory(ILoggerFactory loggerFactory)
+        {
             _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+            _logger = loggerFactory?.CreateLogger<BaseException>() ?? throw new ArgumentNullException(nameof(_logger));
+        }
 
         public IBaseExceptionMessage HandleExceptionResponse(Exception exception)
         {
             IBaseException customException = null;
-            ILogger<IBaseException> exceptionLogger = _loggerFactory?.CreateLogger<BaseException>();
 
             var exceptionResponse = ExceptionMessageHelper.GetBaseExceptionMessage();
 
@@ -29,9 +31,10 @@ namespace RJAR.Exceptions.Factories
             {
                 case FunctionalException fex:
                     exceptionResponse = ExceptionMessageHelper.GetFunctionalExceptionMessage(exception.Message, fex.GetValidationFieldMessages());
+                    customException = fex;
                     break;
                 case TechnicalException tex:
-                    exceptionLogger = _loggerFactory?.CreateLogger<TechnicalException>();
+                    customException = tex;
                     break;
                 case NullReferenceException nrex:
                     customException = new TechnicalException(nrex.Message, nrex);
@@ -45,15 +48,12 @@ namespace RJAR.Exceptions.Factories
                 case IOException ioEx:
                     customException = new TechnicalException(ioEx.Message, ioEx);
                     break;
-                case SqlException sqlEx:
-                    customException = new TechnicalException(sqlEx.Message, sqlEx);
-                    break;
                 case Exception ex:
                     customException = new UnhandledException(ex.Message, ex);
                     break;
             }
 
-            customException.SetExceptionLogger(exceptionLogger);
+            customException.SetExceptionLogger(_logger);
             customException.LogError();
 
             return exceptionResponse;

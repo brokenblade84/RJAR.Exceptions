@@ -7,6 +7,6 @@ namespace RJAR.Exceptions.Interfaces
     {
         ExceptionType GetExceptionType();
         void LogError();
-        void SetExceptionLogger<T>(ILogger<T> logger) where T : IBaseException;
+        void SetExceptionLogger(ILogger logger);
     }
 }

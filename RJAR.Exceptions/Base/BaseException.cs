@@ -13,7 +13,7 @@ namespace RJAR.Exceptions.Base
     public abstract class BaseException : Exception, IBaseException
     {
         private readonly ExceptionType _exceptionType;
-        protected ILogger<BaseException> _logger;
+        protected ILogger _logger;
         
         protected BaseException(ExceptionType exceptionType = ExceptionType.Unhandled) 
             : base() =>
@@ -48,12 +48,10 @@ namespace RJAR.Exceptions.Base
         public virtual void LogError()
         {
             if (_logger != null && _logger.IsEnabled(LogLevel.Error))
-            {
                 _logger.LogError(this.Message, this);
-            }
         }
 
-        public void SetExceptionLogger<T>(ILogger<T> logger) where T : IBaseException =>
-            _logger = (ILogger<BaseException>) logger;
+        public void SetExceptionLogger(ILogger logger) =>
+            _logger = logger;
     }
 }

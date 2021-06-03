@@ -6,7 +6,7 @@ namespace RJAR.Exceptions.Messages
 {
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class BaseExceptionMessage : IBaseExceptionMessage
+    public class BaseExceptionMessage : IBaseResponseMessage
     {
         public Int32 StatusCode { get; set; }
         public String ErrorMessage { get; set; }

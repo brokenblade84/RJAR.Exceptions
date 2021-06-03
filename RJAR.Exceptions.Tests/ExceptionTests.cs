@@ -16,8 +16,8 @@ namespace RJAR.Exceptions.Tests
     {
         private ILogger<FunctionalException> _functionalExceptionLogger;
         private ILogger<TechnicalException> _technicalExceptionLogger;
-        private IErrorHandlerFactory _technicalErrorHandlerFactory;
-        private IErrorHandlerFactory _functionalErrorHandlerFactory;
+        private IErrorHandlerService _technicalErrorHandlerFactory;
+        private IErrorHandlerService _functionalErrorHandlerFactory;
 
         [SetUp]
         public void BaseSetUp()
@@ -25,11 +25,11 @@ namespace RJAR.Exceptions.Tests
             _functionalExceptionLogger = new Mock<ILogger<FunctionalException>>().Object;
             _technicalExceptionLogger = new Mock<ILogger<TechnicalException>>().Object;
 
-            var mockTechnicalErrorHandlerFactory = new Mock<IErrorHandlerFactory>();
-            mockTechnicalErrorHandlerFactory.Setup(x => x.HandleExceptionResponse(It.IsAny<Exception>())).Returns(ExceptionResponseMessageHelper.GetTechnicalExceptionResponseMessage);
+            var mockTechnicalErrorHandlerFactory = new Mock<IErrorHandlerService>();
+            mockTechnicalErrorHandlerFactory.Setup(x => x.HandleException(It.IsAny<Exception>())).Returns(ExceptionResponseMessageHelper.GetTechnicalExceptionResponseMessage);
 
-            var mockFunctionalErrorHandlerFactory = new Mock<IErrorHandlerFactory>();
-            mockFunctionalErrorHandlerFactory.Setup(x => x.HandleExceptionResponse(It.IsAny<Exception>())).Returns(ExceptionResponseMessageHelper.GetFunctionalExceptionResponseMessage);
+            var mockFunctionalErrorHandlerFactory = new Mock<IErrorHandlerService>();
+            mockFunctionalErrorHandlerFactory.Setup(x => x.HandleException(It.IsAny<Exception>())).Returns(ExceptionResponseMessageHelper.GetFunctionalExceptionResponseMessage);
 
 
             _technicalErrorHandlerFactory = mockTechnicalErrorHandlerFactory.Object;
@@ -161,13 +161,13 @@ namespace RJAR.Exceptions.Tests
         public void TestErrorHandlerFactoryWithTechnicalException()
         {
             var technicalException = new TechnicalException(MessageHelper.TECHNICAL_EXCEPTION_MESSAGE);
-            var messageResponse = _technicalErrorHandlerFactory.HandleExceptionResponse(technicalException);
+            var messageResponse = _technicalErrorHandlerFactory.HandleException(technicalException);
 
             Assert.Multiple(() =>
             {
                 Assert.IsInstanceOf<TechnicalException>(technicalException);
                 Assert.AreEqual(MessageHelper.TECHNICAL_EXCEPTION_MESSAGE, technicalException.Message);
-                Assert.IsInstanceOf<IBaseExceptionMessage>(messageResponse);
+                Assert.IsInstanceOf<IBaseResponseMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.InternalServerError);
                 Assert.AreEqual(MessageHelper.EXCEPTION_DEFAULT_MESSAGE, messageResponse.ErrorMessage);
             });
@@ -179,13 +179,13 @@ namespace RJAR.Exceptions.Tests
             var technicalException = new TechnicalException(MessageHelper.TECHNICAL_EXCEPTION_MESSAGE);
             technicalException.SetExceptionLogger(_technicalExceptionLogger);
 
-            var messageResponse = _technicalErrorHandlerFactory.HandleExceptionResponse(technicalException);
+            var messageResponse = _technicalErrorHandlerFactory.HandleException(technicalException);
 
             Assert.Multiple(() =>
             {
                 Assert.IsInstanceOf<TechnicalException>(technicalException);
                 Assert.AreEqual(MessageHelper.TECHNICAL_EXCEPTION_MESSAGE, technicalException.Message);
-                Assert.IsInstanceOf<IBaseExceptionMessage>(messageResponse);
+                Assert.IsInstanceOf<IBaseResponseMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.InternalServerError);
                 Assert.AreEqual(MessageHelper.EXCEPTION_DEFAULT_MESSAGE, messageResponse.ErrorMessage);
                 Assert.DoesNotThrow(technicalException.LogError);
@@ -196,13 +196,13 @@ namespace RJAR.Exceptions.Tests
         public void TestErrorHandlerFactoryWithFunctionalException()
         {
             var functionalException = new FunctionalException(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE);
-            var messageResponse = _functionalErrorHandlerFactory.HandleExceptionResponse(functionalException);
+            var messageResponse = _functionalErrorHandlerFactory.HandleException(functionalException);
 
             Assert.Multiple(() =>
             {
                 Assert.IsInstanceOf<FunctionalException>(functionalException);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, functionalException.Message);
-                Assert.IsInstanceOf<IFunctionalExceptionMessage>(messageResponse);
+                Assert.IsInstanceOf<IExtendedResponseMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.BadRequest);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, messageResponse.ErrorMessage);
             });
@@ -214,13 +214,13 @@ namespace RJAR.Exceptions.Tests
             var functionalException = new FunctionalException(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE);
             functionalException.SetExceptionLogger(_functionalExceptionLogger);
 
-            var messageResponse = _functionalErrorHandlerFactory.HandleExceptionResponse(functionalException);
+            var messageResponse = _functionalErrorHandlerFactory.HandleException(functionalException);
 
             Assert.Multiple(() =>
             {
                 Assert.IsInstanceOf<FunctionalException>(functionalException);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, functionalException.Message);
-                Assert.IsInstanceOf<IFunctionalExceptionMessage>(messageResponse);
+                Assert.IsInstanceOf<IExtendedResponseMessage>(messageResponse);
                 Assert.AreEqual(messageResponse.StatusCode, (Int32) HttpStatusCode.BadRequest);
                 Assert.AreEqual(MessageHelper.FUNCTIONAL_EXCEPTION_MESSAGE, messageResponse.ErrorMessage); 
                 Assert.DoesNotThrow(functionalException.LogError);

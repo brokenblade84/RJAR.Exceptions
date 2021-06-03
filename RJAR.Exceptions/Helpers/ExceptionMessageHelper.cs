@@ -11,21 +11,21 @@ namespace RJAR.Exceptions.Helpers
     [ExcludeFromCodeCoverage]
     public static class ExceptionMessageHelper
     {
-        public static IBaseExceptionMessage GetBaseExceptionMessage() =>
+        public static IBaseResponseMessage GetBaseExceptionMessage() =>
             new BaseExceptionMessage
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError,
                 ErrorMessage = ExceptionConstants.EXCEPTION_DEFAULT_MESSAGE
             };
 
-        internal static IBaseExceptionMessage GetMiddlewareExceptionMessage() =>
+        internal static IBaseResponseMessage GetMiddlewareExceptionMessage() =>
             new BaseExceptionMessage
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError,
                 ErrorMessage = ExceptionConstants.MIDDLEWARE_EXECUTION_EXCEPTION
             };
 
-        internal static IFunctionalExceptionMessage GetFunctionalExceptionMessage(String message, IDictionary<String, String> validationFieldMessages) =>
+        internal static IExtendedResponseMessage GetFunctionalExceptionMessage(String message, IDictionary<String, String> validationFieldMessages) =>
             new FunctionalExceptionMessage
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,

@@ -19,8 +19,8 @@ namespace RJAR.Exceptions.Extensions
         /// <returns>Updated collection of services for the application.</returns>
         public static IServiceCollection UseExceptionMiddleware(this IServiceCollection services)
         {
-            services.RemoveServiceFromCollection<IErrorHandlerFactory>()
-                    .AddTransient<IErrorHandlerFactory, ErrorHandlerFactory>();
+            services.RemoveServiceFromCollection<IErrorHandlerService>()
+                    .AddScoped<IErrorHandlerService, BaseErrorHandlerService>();
             
             return services;
         }
@@ -32,12 +32,28 @@ namespace RJAR.Exceptions.Extensions
         public static void UseExceptionMiddleware(this IApplicationBuilder app)
         {
             //Error handle factory service must be defined. If not a call to UseExceptionMiddleware was omitted.
-            var errorHandlerFactory = app.ApplicationServices.GetService<IErrorHandlerFactory>();
+            var errorHandlerFactory = app.ApplicationServices.GetService<IErrorHandlerService>();
      
             if (errorHandlerFactory == null)
                 app.UseMiddleware<ErrorExceptionMiddleware>();
             else
                 app.UseMiddleware<ExceptionMiddleware>();
+        }
+
+        /// <summary>
+        /// Custom extension method to register your own ErrorHandlerFactory class.
+        /// It would need to use the IErrorHandlerFactory interface to work properly.
+        /// </summary>
+        /// <typeparam name="T">custom error handler factory for the middleware.</typeparam>
+        /// <param name="services">Collection of services defined in the application.</param>
+        /// <returns></returns>
+        public static IServiceCollection RegisterCustomExceptionHandlerService<T>(this IServiceCollection services) 
+            where T : class, IErrorHandlerService
+        {
+            services.RemoveServiceFromCollection<IErrorHandlerService>()
+                    .AddScoped<IErrorHandlerService, T>();
+
+            return services;
         }
 
         /// <summary>

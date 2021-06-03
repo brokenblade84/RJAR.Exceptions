@@ -19,8 +19,8 @@ namespace RJAR.Exceptions.Extensions
         /// <returns>Updated collection of services for the application.</returns>
         public static IServiceCollection UseExceptionMiddleware(this IServiceCollection services)
         {
-            services.RemoveServiceFromCollection<IErrorHandlerService>()
-                    .AddScoped<IErrorHandlerService, BaseErrorHandlerService>();
+            services.RemoveServiceFromCollection<IErrorHandlerService>();
+            services.AddTransient<IErrorHandlerService, BaseErrorHandlerService>();
             
             return services;
         }
@@ -32,7 +32,7 @@ namespace RJAR.Exceptions.Extensions
         public static void UseExceptionMiddleware(this IApplicationBuilder app)
         {
             //Error handle factory service must be defined. If not a call to UseExceptionMiddleware was omitted.
-            var errorHandlerFactory = app.ApplicationServices.GetService<IErrorHandlerService>();
+            var errorHandlerFactory = app.ApplicationServices.GetRequiredService<IErrorHandlerService>();
      
             if (errorHandlerFactory == null)
                 app.UseMiddleware<ErrorExceptionMiddleware>();
@@ -51,7 +51,7 @@ namespace RJAR.Exceptions.Extensions
             where T : class, IErrorHandlerService
         {
             services.RemoveServiceFromCollection<IErrorHandlerService>()
-                    .AddScoped<IErrorHandlerService, T>();
+                    .AddTransient<IErrorHandlerService, T>();
 
             return services;
         }

@@ -2,7 +2,7 @@
 
 namespace RJAR.Exceptions.Interfaces
 {
-    public interface IBaseExceptionMessage
+    public interface IBaseResponseMessage
     {
         Int32 StatusCode { get; set; }
         String ErrorMessage { get; set; }

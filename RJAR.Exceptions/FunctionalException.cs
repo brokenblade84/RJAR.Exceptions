@@ -12,7 +12,7 @@ using System.Security.Permissions;
 namespace RJAR.Exceptions
 {
     [Serializable]
-    public class FunctionalException : BaseException, IBaseException
+    public class FunctionalException : BaseException, IFunctionalException
     {
         private IDictionary<String, String> _validationFieldMessages;
 

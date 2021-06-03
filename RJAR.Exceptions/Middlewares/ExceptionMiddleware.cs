@@ -14,13 +14,13 @@ namespace RJAR.Exceptions.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
-        private readonly IErrorHandlerFactory _errorHandlerFactory;
+        private readonly IErrorHandlerService _errorHandlerService;
 
-        public ExceptionMiddleware(RequestDelegate next, IErrorHandlerFactory errorHandlerFactory, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next, IErrorHandlerService errorHandlerService, ILogger<ExceptionMiddleware> logger)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _errorHandlerFactory = errorHandlerFactory ?? throw new ArgumentNullException(nameof(errorHandlerFactory));
+            _errorHandlerService = errorHandlerService ?? throw new ArgumentNullException(nameof(errorHandlerService));
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -38,7 +38,7 @@ namespace RJAR.Exceptions.Middlewares
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var errorResponse = _errorHandlerFactory.HandleExceptionResponse(exception);
+            var errorResponse = _errorHandlerService.HandleException(exception);
             
             context.Response.ContentType = ExceptionConstants.CONTENT_TYPE;
             context.Response.StatusCode = errorResponse.StatusCode;

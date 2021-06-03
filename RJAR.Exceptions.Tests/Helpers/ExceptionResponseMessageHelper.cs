@@ -9,14 +9,14 @@ namespace RJAR.Exceptions.Tests.Helpers
     [ExcludeFromCodeCoverage]
     public static class ExceptionResponseMessageHelper
     {
-        public static IBaseExceptionMessage GetTechnicalExceptionResponseMessage() =>
+        public static IBaseResponseMessage GetTechnicalExceptionResponseMessage() =>
             new BaseExceptionMessage
             {
                 StatusCode = (Int32) HttpStatusCode.InternalServerError,
                 ErrorMessage = MessageHelper.EXCEPTION_DEFAULT_MESSAGE
             };
 
-        public static IBaseExceptionMessage GetFunctionalExceptionResponseMessage() =>
+        public static IBaseResponseMessage GetFunctionalExceptionResponseMessage() =>
             new FunctionalExceptionMessage
             {
                 StatusCode = (Int32) HttpStatusCode.BadRequest,

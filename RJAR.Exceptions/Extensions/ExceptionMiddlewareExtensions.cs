@@ -50,8 +50,8 @@ namespace RJAR.Exceptions.Extensions
         public static IServiceCollection RegisterCustomExceptionHandlerService<T>(this IServiceCollection services) 
             where T : class, IErrorHandlerService
         {
-            services.RemoveServiceFromCollection<IErrorHandlerService>()
-                    .AddTransient<IErrorHandlerService, T>();
+            services.RemoveServiceFromCollection<IErrorHandlerService>();
+            services.AddTransient<IErrorHandlerService, T>();
 
             return services;
         }
